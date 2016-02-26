@@ -16,7 +16,7 @@
 * Intro
 - We created an application server for Clojure
 - Why? Ask us over a beer :)
-  - Hint: Immutant starts new runtime for each app.
+  - Hint: Immutant creates new runtime for each app.
 - Our goal:
   - Run many (web)apps in same Clojure runtime
   - Isolated from each other, but sharing clojure.lang.*
