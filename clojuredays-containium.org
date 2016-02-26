@@ -88,12 +88,14 @@ Immutant starts a new Clojure runtime for each app.
 - All development and testing is therefore "out-of-container"
 - Works great for continuous integration
 
-* Example use case: Dependency isolated Onyx tasks
+* Example: Dependency isolated Onyx tasks
 - Start Onyx once, in the root
 - Run tasks isolated from each other.
 - No conflicting dependencies between tasks.
 - Tasks can still share Systems and resources.
 - Continuous deployment of tasks without restarts.
+#+ATTR_HTML: :align right :width 200px;
+[[file:images/onyx.png]]
 
 #+ATTR_HTML: :class note
 #+BEGIN_QUOTE
