@@ -10,7 +10,7 @@
 #+TWITTER: @containium
 
 #+FAVICON: images/containium-s.png
-#+ICON: images/containium-l.png
+#+ICON: images/containium-l.svg
 #+HASHTAG: #containium
 
 * Intro
