@@ -15,12 +15,22 @@
 
 * Intro
 - We created an application server for Clojure
-- Why we explored this idea in the first place, is something you can ask us over a beer
-- Challenge was, can we run many (web)apps in the same Clojure runtime, isolated from each other, but sharing clojure.lang.*
-- Immutant starts a new Clojure runtime for each app.
+- Why? Ask us over a beer :)
+  - Hint: Immutant starts new runtime for each app.
+- Our goal:
+  - Run many (web)apps in same Clojure runtime
+  - Isolated from each other, but sharing clojure.lang.*
+
+#+ATTR_HTML: :class note
+#+BEGIN_QUOTE
+We created an application server for Clojure called Containium we would like to tell you about.
+Why we explored this idea in the first place, is something you can ask us over a beer.
+The question we asked ourselves was, can we run many (web)apps in the same Clojure runtime, isolated from each other, but sharing clojure.lang.*?
+Immutant starts a new Clojure runtime for each app.
+#+END_QUOTE
 
 * Boxure
-- Turns out, with (mostly) ClassLoader magic, we can.
+- Turns out, with (mostly) ClassLoader magic, we can!
 - Boxure is a small library that lets you create a "box", in which you can load your (leiningen) app
 - Super fast, because Clojure runtime is shared
 - One box can share datastructures with another app, without (de)serialization
