@@ -88,6 +88,20 @@ Immutant starts a new Clojure runtime for each app.
 - All development and testing is therefore "out-of-container"
 - Works great for continuous integration
 
+* Example use case: Dependency isolated Onyx tasks
+- Start Onyx once, in the root
+- Run tasks isolated from each other.
+- No conflicting dependencies between tasks.
+- Tasks can still share Systems and resources.
+- Continuous deployment of tasks without restarts.
+
+#+ATTR_HTML: :class note
+#+BEGIN_QUOTE
+Multiple web apps in a single runtime is nothing new.
+However, Containium enables you to easily build a custom application server from the set of libraries.
+You could start Onyx in the root and have tasks isolated, no conflicting using dependencies between tasks.
+#+END_QUOTE
+
 * Status and future
 - Running stable in production for over a year now
 - Yet codebase is very specific for our needs
