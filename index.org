@@ -25,8 +25,9 @@
 #+BEGIN_QUOTE
 We created an application server for Clojure called Containium we'd like to introduce to you.
 Why we explored this idea in the first place, is something you can ask us over a beer.
+Existing applications servers like Immutant and Tomcat require a new Clojure runtime for each app.
+We'd like to have small applications (microservices if you will) with no or very low overhead.
 The question we asked ourselves was, can we run many (web)apps in the same Clojure runtime, isolated from each other, but sharing clojure.lang.*?
-Immutant starts a new Clojure runtime for each app.
 #+END_QUOTE
 
 * Boxure
@@ -39,10 +40,24 @@ Immutant starts a new Clojure runtime for each app.
 
 * Boxure Clojure
 - Small patches to Clojure required
-  - Package privates & multimethod caching
-  - Patched for Clojure 1.5.1, 1.6, 1.7 and 1.8
   - App (developer) does not notice this, is only for Boxure
+  - Package privates
+    - Nowadays mainly for clojure.lang.Agent
+  - Multimethod lookup caching using weak references
+    - Prevents classloader memory leaks
+  - Patched for Clojure 1.5.1, 1.6, 1.7 and 1.8
 - Patch clojure.lang.Namespace per loader (advanced feature)
+  - clojure.core/proxy
+  - clojure.core/binding-conveyor-fn
+
+#+ATTR_HTML: :class note
+#+BEGIN_QUOTE
+Boxure is as an isolating classloader. Using package and classname regular expressions, one can specify what classes must be isolated in the box.
+Initially, we isolated clojure.lang.RT but shared datastructures.
+However, after more experimentation we wanted to go one step further.
+Now the entire clojure Runtime is shared. Only clojure Agent's are still isolated, in order for every box to get it's own Thread-pool.
+This required a few more core patches, to set the right context when executing futures and agents.
+#+END_QUOTE
 
 * Containium, the application server
 - Uses Boxure for isolating apps
