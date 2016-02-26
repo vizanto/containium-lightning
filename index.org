@@ -18,12 +18,12 @@
 - Why? Ask us over a beer :)
   - Hint: Immutant creates new runtime for each app.
 - Our goal:
-  - Run many (web)apps in same Clojure runtime
+  - Run many (web)apps using the same Clojure runtime
   - Isolated from each other, but sharing clojure.lang.*
 
 #+ATTR_HTML: :class note
 #+BEGIN_QUOTE
-We created an application server for Clojure called Containium we would like to tell you about.
+We created an application server for Clojure called Containium we'd like to introduce to you.
 Why we explored this idea in the first place, is something you can ask us over a beer.
 The question we asked ourselves was, can we run many (web)apps in the same Clojure runtime, isolated from each other, but sharing clojure.lang.*?
 Immutant starts a new Clojure runtime for each app.
