@@ -1,0 +1,40 @@
+* Intro
+We created an application server for Clojure
+Why we explored this idea in the first place, is something you can ask us over a beer
+Challenge was, can we run many (web)apps in the same Clojure runtime, isolated from each other, but sharing clojure.lang.*
+Immutant starts a new Clojure runtime for each app.
+* Boxure
+Turns out, with (mostly) ClassLoader magic, we can.
+Boxure is a small library that lets you create a "box", in which you can load your (leiningen) app
+Super fast, because Clojure runtime is shared
+One box can share datastructures with another app, without (de)serialization
+* Boxure Clojure
+For this to work, also some small patches to Clojure are necessary
+For example, package privates, and multimethod caching
+Patched for Clojure 1.5.1, 1.6, 1.7 and 1.8
+You don't notice this, as it is Boxure that requires it, not your app
+clojure.lang.Namespace per loader (advanced feature)
+* Containium, the application server
+Uses Boxure for isolating apps
+Starts base systems in the root classloader, which are given to the app on startup
+This means sharing resources, such as database pools, distributed ring session store, etc
+Systems are sort of Components (but Component did not exist at that time)
+Offers management commands for deploying, undeploying and swapping apps
+Swapping means that a new version is deployed, while the current version keeps running
+Deploying is very fast, and only when that deploy has succeeded, the ring handler of the app is updated, and the old version is undeployed
+Works great for continuous deployment
+* Containium, the libraries
+Containium and its systems is just a set of libraries.
+Whenever an app uses a containiumified system, it can do so outside of containum server.
+All development and testing is therefore "out-of-container"
+Works great for continuous integration
+* Status and future
+Running stable in production for over a year now
+Yet codebase is very specific for our needs
+Working towards a more modular design
+Working on more configuration possibilities, but also "it just works" out of the box
+Working on transitioning systems (and internals) to mount-lite
+* Goal
+Many goals already achieved, with Boxure and current Containium
+Goal in the end, now that it is open source, give the Clojure community an Application Server as a Library that just works.
+A go-to choice of deploying and swapping your apps as it were
