@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title></title>
+<!-- 2016-02-26 Fri 17:01 -->
+<meta  charset="utf-8" />
+<meta  htto-equiv="X-UA-Compatible" content="chrome=1" />
+<meta  name="generator" content="Org-mode with org-ioslide" />
+<meta  name="author" content="Arnout Roemers &amp; Danny Wilson" />
+<meta  name="description" content="Lightning Talk at Dutch ClojureDays 2016"
+ />
+
+<!--<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">-->
+<!--<meta name="viewport" content="width=device-width, initial-scale=1.0">-->
+<!--This one seems to work all the time, but really small on ipad-->
+<!--<meta name="viewport" content="initial-scale=0.4">-->
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<link rel="stylesheet" media="all" href="theme/css/default.css" />
+<link rel="stylesheet" media="only screen and (max-device-width: 480px)" href="theme/css/phone.css" />
+<link rel="stylesheet" media="all" href="theme/css/small-icon.css" />
+<base target="_blank"> <!-- This amazingness opens all links in a new tab. -->
+<script data-main="js/slides" src="js/require-1.0.8.min.js"></script>
+
+   <script src="js/jquery-1.7.1.min.js" type="text/javascript"></script>
+
+<script src="js/mathjax/MathJax.js?config=TeX-AMS-MML_HTMLorMML,local/local" type="text/javascript"></script>
+</head>
+<body style="opacity: 0">
+<slides class="layout-widescreen">
+<slide class="title-slide segue nobackground">
+       <aside class="gdbar"><img src="images/containium-l.svg"></aside>
+       <!-- The content of this hgroup is replaced programmatically through the slide_config.json. -->
+       <hgroup class="auto-fadein">
+         <h1 data-config-title><!-- populated from slide_config.json --></h1>
+         <h2 data-config-subtitle><!-- populated from slide_config.json --></h2>
+         <p data-config-presenter><!-- populated from slide_config.json --></p>
+       </hgroup>
+    </slide>
+
+<slide id="sec-1"  >
+<hgroup class="">
+       <h2 class="nil "><span class="section-number-2">1</span> Intro</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-1">
+<ul>
+<li>We created an application server for Clojure
+</li>
+<li>Why? Ask us over a beer :)
+<ul>
+<li>Hint: Immutant creates new runtime for each app.
+</li>
+</ul>
+</li>
+<li>Our goal:
+<ul>
+<li>Run many (web)apps in same Clojure runtime
+</li>
+<li>Isolated from each other, but sharing clojure.lang.*
+</li>
+</ul>
+</li>
+</ul>
+
+<aside class="note">
+  <section>
+<p>
+We created an application server for Clojure called Containium we would like to tell you about.
+Why we explored this idea in the first place, is something you can ask us over a beer.
+The question we asked ourselves was, can we run many (web)apps in the same Clojure runtime, isolated from each other, but sharing clojure.lang.*?
+Immutant starts a new Clojure runtime for each app.
+</p>
+
+  </section>
+</aside>
+
+
+</article>
+
+</slide>
+
+</slide>
+<slide id="sec-2"  >
+<hgroup class="">
+       <h2 class="nil "><span class="section-number-2">2</span> Boxure</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-2">
+<ul>
+<li>Turns out, with (mostly) ClassLoader magic, we can!
+</li>
+<li>Boxure is a small library that lets you create a "box"
+<ul>
+<li>Box loads your (leiningen) app
+</li>
+</ul>
+</li>
+<li>Very fast, because Clojure runtime is shared
+</li>
+<li>Datastructure sharing between boxes (apps)
+<ul>
+<li>No (de)serialization
+</li>
+</ul>
+</li>
+</ul>
+
+
+</article>
+
+</slide>
+
+</slide>
+<slide id="sec-3"  >
+<hgroup class="">
+       <h2 class="nil "><span class="section-number-2">3</span> Boxure Clojure</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-3">
+<ul>
+<li>Small patches to Clojure required
+<ul>
+<li>Package privates &amp; multimethod caching
+</li>
+<li>Patched for Clojure 1.5.1, 1.6, 1.7 and 1.8
+</li>
+<li>App (developer) does not notice this, is only for Boxure
+</li>
+</ul>
+</li>
+<li>Patch clojure.lang.Namespace per loader (advanced feature)
+</li>
+</ul>
+
+
+</article>
+
+</slide>
+
+</slide>
+<slide id="sec-4"  >
+<hgroup class="">
+       <h2 class="nil "><span class="section-number-2">4</span> Containium, the application server</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-4">
+<ul>
+<li>Uses Boxure for isolating apps
+</li>
+<li>Deployment configuration in project.clj
+</li>
+</ul>
+<div class="org-src-container">
+
+<pre class="prettyprint" data-lang="edn">
+(defproject my-app "0.1"
+  ...
+  :containium {:start my-app.core/start
+               :stop my-app.core/stop
+               :ring {:handler my-app.core/handler
+                      :context "/myapp"}
+               :arbritary :thing})
+</pre>
+
+</div>
+
+
+</article>
+
+</slide>
+
+</slide>
+<slide id="sec-5"  >
+<hgroup class="">
+       <h2 class="nil "><span class="section-number-2">5</span> Containium, the application server</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-5">
+<ul>
+<li>Has base systems in the root classloader
+<ul>
+<li>Component-like, loaded on startup
+</li>
+<li>Shared resources, like database pools, distributed ring SessionStore, etc
+</li>
+</ul>
+</li>
+</ul>
+<div class="org-src-container">
+
+<pre class="prettyprint" data-lang="clojure">
+(ns my-app.core
+  (:require [containium.system.distributed-session :as session]
+            ...))
+
+(defn start [{:keys [session] :as system}
+             {:keys [arbritary] :as conf}]
+  (wrap-handler (fn [h] (wrap-session h {:store session})))
+</pre>
+
+</div>
+
+
+</article>
+
+</slide>
+
+</slide>
+<slide id="sec-6"  >
+<hgroup class="">
+       <h2 class="nil "><span class="section-number-2">6</span> Containium, the application server</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-6">
+<ul>
+<li>Apps have deployment descriptors
+</li>
+</ul>
+<div class="org-src-container">
+
+<pre class="prettyprint" data-lang="edn">
+{:file "path/to/directory-or-jar"
+ :arbritary :override}
+</pre>
+
+</div>
+<ul>
+<li>Server has commands for deploying, undeploying and swapping apps
+</li>
+<li>Swapping: deploy new version -&gt; undeploy old version (atomically)
+</li>
+<li>Very fast
+</li>
+<li>Great for continuous deployment
+</li>
+</ul>
+
+
+</article>
+
+</slide>
+
+</slide>
+<slide id="sec-7"  >
+<hgroup class="">
+       <h2 class="nil "><span class="section-number-2">7</span> Containium, the libraries</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-7">
+<ul>
+<li>Containium and its systems is just a set of libraries.
+</li>
+<li>Whenever an app uses a containiumified system, it can do so outside of containum server.
+</li>
+<li>All development and testing is therefore "out-of-container"
+</li>
+<li>Works great for continuous integration
+</li>
+</ul>
+
+
+</article>
+
+</slide>
+
+</slide>
+<slide id="sec-8"  >
+<hgroup class="">
+       <h2 class="nil "><span class="section-number-2">8</span> Example: Dependency isolated Onyx tasks</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-8">
+<ul>
+<li>Start Onyx once, in the root
+</li>
+<li>Run tasks isolated from each other.
+</li>
+<li>No conflicting dependencies between tasks.
+</li>
+<li>Tasks can still share Systems and resources.
+</li>
+<li>Continuous deployment of tasks without restarts.
+</li>
+</ul>
+
+<div class="figure">
+<p><img src="images/onyx.png" alt="onyx.png" align="right" width="200px;" />
+</p>
+</div>
+
+<aside class="note">
+  <section>
+<p>
+Multiple web apps in a single runtime is nothing new.
+However, Containium enables you to easily build a custom application server from the set of libraries.
+You could start Onyx in the root and have tasks isolated, no conflicting using dependencies between tasks.
+</p>
+
+  </section>
+</aside>
+
+
+</article>
+
+</slide>
+
+</slide>
+<slide id="sec-9"  >
+<hgroup class="">
+       <h2 class="nil "><span class="section-number-2">9</span> Status and future</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-9">
+<ul>
+<li>Running stable in production for over a year now
+</li>
+<li>Yet codebase is very specific for our needs
+</li>
+<li>Working towards a more modular design
+</li>
+<li>Working on more configuration possibilities, but also "it just works" out of the box
+</li>
+<li>Working on transitioning systems (and internals) to mount-lite
+</li>
+</ul>
+
+
+</article>
+
+</slide>
+
+</slide>
+<slide id="sec-10"  >
+<hgroup class="">
+       <h2 class="nil "><span class="section-number-2">10</span> Goal</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-10">
+<ul>
+<li>Many goals already achieved, with Boxure and current Containium
+</li>
+<li>Goal in the end, now that it is open source, give the Clojure community an Application Server as a Library that just works.
+</li>
+<li>A go-to choice of deploying and swapping your apps as it were
+</li>
+</ul>
+
+
+</article>
+
+</slide>
+</slide>
+<slide id="sec-11" class=" thank-you-slide segue nobackground" style="background-image: url(nil)">
+<aside class="gdbar right"><img src="images/containium-l.svg"></aside><article class="flexbox vleft auto-fadein" id="text-11">
+<h2>
+  <p>Thank you</p>
+</h2>
+<br>
+<p class="auto-fadein" data-config-contact>
+</p>
+</article>
+
+</slide>
+<slide class="backdrop"></slide>
+</slides>
+<!--[if IE]>
+  <script src="http://ajax.googleapis.com/ajax/libs/chrome-frame/1/CFInstall.min.js"></script>
+  <script>CFInstall.check({mode: 'overlay'});</script>
+<![endif]-->
+</body>
+
+</html>
