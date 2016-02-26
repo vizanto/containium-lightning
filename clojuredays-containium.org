@@ -31,19 +31,22 @@ Immutant starts a new Clojure runtime for each app.
 
 * Boxure
 - Turns out, with (mostly) ClassLoader magic, we can!
-- Boxure is a small library that lets you create a "box", in which you can load your (leiningen) app
-- Super fast, because Clojure runtime is shared
-- One box can share datastructures with another app, without (de)serialization
+- Boxure is a small library that lets you create a "box"
+  - Box loads your (leiningen) app
+- Very fast, because Clojure runtime is shared
+- Datastructure sharing between boxes (apps)
+  - No (de)serialization
 
 * Boxure Clojure
-- For this to work, also some small patches to Clojure are necessary
-- For example, package privates, and multimethod caching
-- Patched for Clojure 1.5.1, 1.6, 1.7 and 1.8
-- You don't notice this, as it is Boxure that requires it, not your app
-- clojure.lang.Namespace per loader (advanced feature)
+- Small patches to Clojure required
+  - Package privates & multimethod caching
+  - Patched for Clojure 1.5.1, 1.6, 1.7 and 1.8
+  - App (developer) does not notice this, is only for Boxure
+- Patch clojure.lang.Namespace per loader (advanced feature)
 
 * Containium, the application server
 - Uses Boxure for isolating apps
+- Has base systems
 - Starts base systems in the root classloader, which are given to the app on startup
 - This means sharing resources, such as database pools, distributed ring session store, etc
 - Systems are sort of Components (but Component did not exist at that time)
