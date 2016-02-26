@@ -1231,7 +1231,7 @@ aside.gdbar.bottom {
 /* line 897, ../scss/default.scss */
 aside.gdbar img {
   /* width: 85px; */
-    height: 100px;
+  height: 100px;
   position: absolute;
   right: 0;
   margin: 8px 15px;
