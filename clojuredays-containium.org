@@ -7,11 +7,11 @@
 #+LANGUAGE: en
 #+WWW: http://containium.org
 #+GITHUB: http://github.com/containium
-#+TWITTER: containium
+#+TWITTER: @containium
 
 #+FAVICON: images/containium-s.png
 #+ICON: images/containium-l.png
-#+HASHTAG: containium
+#+HASHTAG: #containium
 
 * Intro
 - We created an application server for Clojure
@@ -115,3 +115,9 @@ You could start Onyx in the root and have tasks isolated, no conflicting using d
 - Many goals already achieved, with Boxure and current Containium
 - Goal in the end, now that it is open source, give the Clojure community an Application Server as a Library that just works.
 - A go-to choice of deploying and swapping your apps as it were
+* Thank you
+:PROPERTIES:
+:SLIDE: thank-you-slide segue
+:ASIDE: right
+:ARTICLE: flexbox vleft auto-fadein
+:END:
