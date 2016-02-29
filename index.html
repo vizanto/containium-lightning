@@ -2,7 +2,7 @@
 <html>
 <head>
 <title></title>
-<!-- 2016-02-26 Fri 17:01 -->
+<!-- 2016-02-29 Mon 09:07 -->
 <meta  charset="utf-8" />
 <meta  htto-equiv="X-UA-Compatible" content="chrome=1" />
 <meta  name="generator" content="Org-mode with org-ioslide" />
@@ -54,7 +54,7 @@
 </li>
 <li>Our goal:
 <ul>
-<li>Run many (web)apps in same Clojure runtime
+<li>Run many (web)apps using the same Clojure runtime
 </li>
 <li>Isolated from each other, but sharing clojure.lang.*
 </li>
@@ -65,10 +65,11 @@
 <aside class="note">
   <section>
 <p>
-We created an application server for Clojure called Containium we would like to tell you about.
+We created an application server for Clojure called Containium we'd like to introduce to you.
 Why we explored this idea in the first place, is something you can ask us over a beer.
+Existing applications servers like Immutant and Tomcat require a new Clojure runtime for each app.
+We'd like to have small applications (microservices if you will) with no or very low overhead.
 The question we asked ourselves was, can we run many (web)apps in the same Clojure runtime, isolated from each other, but sharing clojure.lang.*?
-Immutant starts a new Clojure runtime for each app.
 </p>
 
   </section>
@@ -120,17 +121,46 @@ Immutant starts a new Clojure runtime for each app.
 <ul>
 <li>Small patches to Clojure required
 <ul>
-<li>Package privates &amp; multimethod caching
+<li>App (developer) does not notice this, is only for Boxure
+</li>
+<li>Package privates
+<ul>
+<li>Nowadays mainly for clojure.lang.Agent
+</li>
+</ul>
+</li>
+<li>Multimethod lookup caching using weak references
+<ul>
+<li>Prevents classloader memory leaks
+</li>
+</ul>
 </li>
 <li>Patched for Clojure 1.5.1, 1.6, 1.7 and 1.8
-</li>
-<li>App (developer) does not notice this, is only for Boxure
 </li>
 </ul>
 </li>
 <li>Patch clojure.lang.Namespace per loader (advanced feature)
+<ul>
+<li>clojure.core/proxy
+</li>
+<li>clojure.core/binding-conveyor-fn
 </li>
 </ul>
+</li>
+</ul>
+
+<aside class="note">
+  <section>
+<p>
+Boxure is as an isolating classloader. Using package and classname regular expressions, one can specify what classes must be isolated in the box.
+Initially, we isolated clojure.lang.RT but shared datastructures.
+However, after more experimentation we wanted to go one step further.
+Now the entire clojure Runtime is shared. Only clojure Agent's are still isolated, in order for every box to get it's own Thread-pool.
+This required a few more core patches, to set the right context when executing futures and agents.
+</p>
+
+  </section>
+</aside>
 
 
 </article>
