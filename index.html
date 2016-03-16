@@ -2,7 +2,7 @@
 <html>
 <head>
 <title></title>
-<!-- 2016-03-16 Wed 14:59 -->
+<!-- 2016-03-16 Wed 15:08 -->
 <meta  charset="utf-8" />
 <meta  htto-equiv="X-UA-Compatible" content="chrome=1" />
 <meta  name="generator" content="Org-mode with org-ioslide" />
@@ -121,7 +121,7 @@ The question we asked ourselves was, can we run many (web)apps in the same Cloju
 <ul>
 <li>Small patches to Clojure required
 </li>
-<li>App (developer) does not notice this, is only for Boxure
+<li>App (developer) not affected - is only for Boxure
 </li>
 <li>Examples:
 <ul>
@@ -142,6 +142,10 @@ The question we asked ourselves was, can we run many (web)apps in the same Cloju
 <li>Patched for Clojure 1.5.1, 1.6, 1.7 and 1.8
 </li>
 <li>Patch clojure.lang.Namespace per loader (advanced feature)
+<ul>
+<li>Share clojure.core namespaces
+</li>
+</ul>
 </li>
 </ul>
 
@@ -204,12 +208,10 @@ This required a few more core patches, to set the right context when executing f
 <article class="" id="text-5">
 <ul>
 <li>Has base systems in the root classloader
-<ul>
+</li>
 <li>Component-like, loaded on startup
 </li>
 <li>Shared resources, like database pools, distributed ring SessionStore, etc
-</li>
-</ul>
 </li>
 </ul>
 <div class="org-src-container">

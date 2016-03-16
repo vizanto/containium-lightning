@@ -40,7 +40,7 @@ The question we asked ourselves was, can we run many (web)apps in the same Cloju
 
 * Boxure Clojure
 - Small patches to Clojure required
-- App (developer) does not notice this, is only for Boxure
+- App (developer) not affected - is only for Boxure
 - Examples:
   - Package privates
     - Nowadays mainly for clojure.lang.Agent
@@ -48,6 +48,7 @@ The question we asked ourselves was, can we run many (web)apps in the same Cloju
     - Prevents classloader memory leaks
 - Patched for Clojure 1.5.1, 1.6, 1.7 and 1.8
 - Patch clojure.lang.Namespace per loader (advanced feature)
+  - Share clojure.core namespaces
 
 #+ATTR_HTML: :class note
 #+BEGIN_QUOTE
@@ -73,8 +74,8 @@ This required a few more core patches, to set the right context when executing f
 
 * Containium, the application server
 - Has base systems in the root classloader
-  - Component-like, loaded on startup
-  - Shared resources, like database pools, distributed ring SessionStore, etc
+- Component-like, loaded on startup
+- Shared resources, like database pools, distributed ring SessionStore, etc
 #+BEGIN_SRC clojure
     (ns my-app.core
       (:require [containium.system.distributed-session :as session]
