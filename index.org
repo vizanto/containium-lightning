@@ -40,15 +40,14 @@ The question we asked ourselves was, can we run many (web)apps in the same Cloju
 
 * Boxure Clojure
 - Small patches to Clojure required
-  - App (developer) does not notice this, is only for Boxure
+- App (developer) does not notice this, is only for Boxure
+- Examples:
   - Package privates
     - Nowadays mainly for clojure.lang.Agent
   - Multimethod lookup caching using weak references
     - Prevents classloader memory leaks
-  - Patched for Clojure 1.5.1, 1.6, 1.7 and 1.8
+- Patched for Clojure 1.5.1, 1.6, 1.7 and 1.8
 - Patch clojure.lang.Namespace per loader (advanced feature)
-  - clojure.core/proxy
-  - clojure.core/binding-conveyor-fn
 
 #+ATTR_HTML: :class note
 #+BEGIN_QUOTE
