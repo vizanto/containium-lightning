@@ -128,8 +128,8 @@ You could start Onyx in the root and have tasks isolated, no conflicting using d
 
 * Goal
 - Many goals already achieved, with Boxure and current Containium
-- Goal in the end, now that it is open source, give the Clojure community an Application Server as a Library that just works.
-- A go-to choice of deploying and swapping your apps as it were
+- Now that it is open source, give the Clojure community an Application Server as a Library that just works.
+- A go-to choice of deploying and swapping your apps
 * Thank you
 :PROPERTIES:
 :SLIDE: thank-you-slide segue
